@@ -1,0 +1,22 @@
+name: keep websites awake
+
+on:
+    schedule:
+        - cron: "0 */22 * * *" # every 22 hours
+    workflow_dispatch: # allowing to trigger manually from github
+
+jobs:
+    run-script:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Clone the repo onto runner
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.11'
+
+            - name: Run the script
+              run: python keep-awake.py

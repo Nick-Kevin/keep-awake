@@ -1,12 +1,8 @@
 """
-    This script is used visit each project I've deployed every 1 hour to prevent them from sleep. 
+    This script is used visit each project I've deployed to prevent them from sleep. 
 """
 
-import time
 import requests
-from datetime import datetime
-
-VISIT_INTERVAL = 3600 # 1 hour
 
 urls = [
     "https://nick-kevin-track-popularity.hf.space/",
@@ -24,23 +20,18 @@ HEADERS = {
     "Accept-Language": "en-US,en;q=0.5"
 }
 
-while True:
-    now = datetime.now()
-    print("\n\nVisit at:", now)
 
-    for url in urls:
-        try:
-            with requests.Session() as session:
-                session.headers.update(HEADERS)
+for url in urls:
+    try:
+        with requests.Session() as session:
+            session.headers.update(HEADERS)
 
-                # allow_redirects=True explicitly tells Python to follow Streamlit's routing paths
-                response = session.get(url, timeout=20, allow_redirects=True)
-                
-                print("------------------------------------")
-                print(f"Ping successful! Final URL reached: {response.url}")
-                print(f"Response Status Code: {response.status_code}")
-        except ValueError:
-            print(f"Ping {url} failed: the website is sleeping")
-            print(f"Error: {ValueError}")
-
-    time.sleep(VISIT_INTERVAL)
+            # allow_redirects=True explicitly tells Python to follow Streamlit's routing paths
+            response = session.get(url, timeout=20, allow_redirects=True)
+               
+            print("------------------------------------")
+            print(f"Ping successful! Final URL reached: {response.url}")
+            print(f"Response Status Code: {response.status_code}")
+    except ValueError:
+        print(f"Ping {url} failed: the website is sleeping")
+        print(f"Error: {ValueError}")
